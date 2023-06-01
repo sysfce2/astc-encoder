@@ -417,19 +417,25 @@ void compute_avgs_and_dirs_4_comp(
 			vfloat4 texel_datum = blk.texel(iwt);
 			texel_datum = texel_datum - average;
 
-			vfloat4 zero = vfloat4::zero();
+			if (texel_datum.lane<0>() > 0.0f)
+			{
+				sum_xp += texel_datum;
+			}
 
-			vmask4 tdm0 = texel_datum.swz<0,0,0,0>() > zero;
-			sum_xp += select(zero, texel_datum, tdm0);
+			if (texel_datum.lane<1>() > 0.0f)
+			{
+				sum_yp += texel_datum;
+			}
 
-			vmask4 tdm1 = texel_datum.swz<1,1,1,1>() > zero;
-			sum_yp += select(zero, texel_datum, tdm1);
+			if (texel_datum.lane<2>() > 0.0f)
+			{
+				sum_zp += texel_datum;
+			}
 
-			vmask4 tdm2 = texel_datum.swz<2,2,2,2>() > zero;
-			sum_zp += select(zero, texel_datum, tdm2);
-
-			vmask4 tdm3 = texel_datum.swz<3,3,3,3>() > zero;
-			sum_wp += select(zero, texel_datum, tdm3);
+			if (texel_datum.lane<3>() > 0.0f)
+			{
+				sum_wp += texel_datum;
+			}
 		}
 
 		vfloat4 prod_xp = dot(sum_xp, sum_xp);
@@ -534,16 +540,20 @@ void compute_avgs_and_dirs_3_comp(
 			                              data_vb[iwt]);
 			texel_datum = texel_datum - average;
 
-			vfloat4 zero = vfloat4::zero();
+			if (texel_datum.lane<0>() > 0.0f)
+			{
+				sum_xp += texel_datum;
+			}
 
-			vmask4 tdm0 = texel_datum.swz<0,0,0,0>() > zero;
-			sum_xp += select(zero, texel_datum, tdm0);
+			if (texel_datum.lane<1>() > 0.0f)
+			{
+				sum_yp += texel_datum;
+			}
 
-			vmask4 tdm1 = texel_datum.swz<1,1,1,1>() > zero;
-			sum_yp += select(zero, texel_datum, tdm1);
-
-			vmask4 tdm2 = texel_datum.swz<2,2,2,2>() > zero;
-			sum_zp += select(zero, texel_datum, tdm2);
+			if (texel_datum.lane<2>() > 0.0f)
+			{
+				sum_zp += texel_datum;
+			}
 		}
 
 		vfloat4 prod_xp = dot(sum_xp, sum_xp);
@@ -597,16 +607,20 @@ void compute_avgs_and_dirs_3_comp_rgb(
 			vfloat4 texel_datum = blk.texel3(iwt);
 			texel_datum = texel_datum - average;
 
-			vfloat4 zero = vfloat4::zero();
+			if (texel_datum.lane<0>() > 0.0f)
+			{
+				sum_xp += texel_datum;
+			}
 
-			vmask4 tdm0 = texel_datum.swz<0,0,0,0>() > zero;
-			sum_xp += select(zero, texel_datum, tdm0);
+			if (texel_datum.lane<1>() > 0.0f)
+			{
+				sum_yp += texel_datum;
+			}
 
-			vmask4 tdm1 = texel_datum.swz<1,1,1,1>() > zero;
-			sum_yp += select(zero, texel_datum, tdm1);
-
-			vmask4 tdm2 = texel_datum.swz<2,2,2,2>() > zero;
-			sum_zp += select(zero, texel_datum, tdm2);
+			if (texel_datum.lane<2>() > 0.0f)
+			{
+				sum_zp += texel_datum;
+			}
 		}
 
 		vfloat4 prod_xp = dot(sum_xp, sum_xp);
@@ -697,13 +711,15 @@ void compute_avgs_and_dirs_2_comp(
 			vfloat4 texel_datum = vfloat2(data_vr[iwt], data_vg[iwt]);
 			texel_datum = texel_datum - average;
 
-			vfloat4 zero = vfloat4::zero();
+			if (texel_datum.lane<0>() > 0.0f)
+			{
+				sum_xp += texel_datum;
+			}
 
-			vmask4 tdm0 = texel_datum.swz<0,0,0,0>() > zero;
-			sum_xp += select(zero, texel_datum, tdm0);
-
-			vmask4 tdm1 = texel_datum.swz<1,1,1,1>() > zero;
-			sum_yp += select(zero, texel_datum, tdm1);
+			if (texel_datum.lane<1>() > 0.0f)
+			{
+				sum_yp += texel_datum;
+			}
 		}
 
 		vfloat4 prod_xp = dot(sum_xp, sum_xp);
